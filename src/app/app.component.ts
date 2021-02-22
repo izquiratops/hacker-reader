@@ -1,32 +1,28 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, HostListener } from '@angular/core';
 import { SharedService } from './shared/shared.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    "(window:resize)": "onWindowResize($event)"
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
 
   @HostBinding('class') componentCssClass: string;
 
+  @HostListener('window:resize', ['$event'])
+  private onResize(e: any): void {
+    this.shared.isMobile$.next(e.target.innerWidth < 760);
+  };
+
   constructor(
     public shared: SharedService
   ) {
-    this.shared.currentTheme$
-      .subscribe((theme: string) => this.componentCssClass = theme);
+    this.shared.currentTheme$.subscribe(theme => {
+      this.componentCssClass = theme;
+      localStorage.setItem('theme', theme);
+    });
   }
 
-  /**
-   * Checks if should be displayed the desktop or mobile layout.
-   * 
-   * @param event Values from the new state of the window
-   */
-  onWindowResize(event: any): void {
-    this.shared.isMobile$.next(event.target.innerWidth < this.shared.mobileThreshold);
-  }
 }

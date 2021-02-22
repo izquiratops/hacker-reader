@@ -1,33 +1,36 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { scan } from 'rxjs/operators';
+import { scan} from 'rxjs/operators';
 
 import { HNService } from '../shared/hn.service';
 import { SharedService } from '../shared/shared.service';
-import { Animations } from '../shared/animations';
+import { FeedType, LoadState, Theme } from '../shared/enums';
 import { Item } from '../shared/interfaces';
-import { FeedType, LoadState } from '../shared/enums';
+import { Animations } from '../shared/animations';
 
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.scss'],
-  animations: [Animations.showItem]
+  animations: [ Animations.showItem ]
 })
 export class FeedComponent implements OnInit {
 
-  @ViewChild('scrollElement', {static: true}) scrollEl: ElementRef;
+  @ViewChild('scrollElement', { static: true }) scrollEl: ElementRef;
 
   // Page context
+  page: number = 0;
   scrollTop: number = 0;
   loadState$: BehaviorSubject<LoadState>;
 
   // Stories
-  FeedType = FeedType;
+  ids: number[] = [];
   type$: BehaviorSubject<FeedType>;
-  ids$: BehaviorSubject<number[]>;
   stories$: BehaviorSubject<Item[]>;
+
+  FeedType = FeedType;
+  LoadState = LoadState;
 
   constructor(
     private router: Router,
@@ -36,7 +39,6 @@ export class FeedComponent implements OnInit {
   ) {
     this.loadState$ = new BehaviorSubject<LoadState>(LoadState.WAITING);
     this.type$ = new BehaviorSubject<FeedType>(FeedType.TOP);
-    this.ids$ = new BehaviorSubject<number[]>([]);
     this.stories$ = new BehaviorSubject<Item[]>([]);
 
     // Listener to save the current scroll position when navigates into comments.
@@ -58,7 +60,12 @@ export class FeedComponent implements OnInit {
    * First time load, without this the list would be empty.
    */
   ngOnInit() {
-    this.loadStories();
+    this.setFeedType(FeedType.TOP);
+  }
+
+  switchTheme() {
+    const previousTheme = this.shared.currentTheme$.getValue();
+    this.shared.currentTheme$.next((previousTheme === Theme.LIGHT) ? Theme.DARK : Theme.LIGHT);
   }
 
   /**
@@ -75,41 +82,35 @@ export class FeedComponent implements OnInit {
    * 
    * @param type Kind of feed
    */
-  switchFeed(type: FeedType): void {
+  setFeedType(type: FeedType): void {
     this.loadState$.next(LoadState.WAITING);
     this.stories$.next([]);
     this.type$.next(type);
-    this.loadStories();
+    this.page = 0;
+
+    this.hn.getStoryIndices(this.type$.getValue()).subscribe(ids => {
+      this.ids = ids;
+      this.requestContentFromStories();
+    });
   }
 
   /**
    * Loads the first page (30 items) of the current type (Top Stories by default).
    */
-  loadStories(): void {
-    this.hn.getStoryIndices(this.type$.getValue()).subscribe((ids: number[]) => {
-      // Save IDs
-      this.ids$.next(ids);
-      // Get Stories
-      const stories: Item[] = this.stories$.getValue();
-      this.hn.getItemsContent(ids, stories.length).subscribe((stories: Item[]) => {
-        this.stories$.next(stories);
-        this.loadState$.next(LoadState.IDLE);
-      });
-    })
+  requestContentFromStories(offset: number = 0): void {
+    this.hn.getItemsContent(this.ids.slice(offset, offset + 30)).pipe(
+      scan((acc, curr) => [...acc, ...curr], this.stories$.getValue())
+    ).subscribe(res => {
+      this.stories$.next(res);
+      this.loadState$.next(LoadState.IDLE);
+    });
   }
 
   /**
    * Keeps requesting items, appends 30 more into the list.
    */
   infiniteLoad(): void {
-    const stories: Item[] = this.stories$.getValue();
-    this.loadState$.next(LoadState.WAITING);
-
-    this.hn.getItemsContent(this.ids$.getValue(), stories.length).pipe(
-      scan((curr, appendedStories) => [...curr, ...appendedStories], this.stories$.value)
-    ).subscribe((stories: Item[]) => {
-      this.stories$.next(stories);
-      this.loadState$.next(LoadState.IDLE);
-    });
+    this.page++;
+    this.requestContentFromStories(this.page * 30);
   };
 }

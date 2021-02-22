@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../material.module';
 
 import { FeedComponent } from './feed.component';
-import { CommentsComponent } from './comments/comments.component';
+import { CommentsComponent } from '../comments/comments.component';
+import { HNService } from '../shared/hn.service';
 import { PipesModule } from '../pipes.module';
 
 const routes: Routes = [
@@ -28,6 +29,9 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MaterialModule,
     PipesModule
+  ],
+  providers: [
+    HNService
   ]
 })
 export class FeedModule { }

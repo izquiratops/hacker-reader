@@ -1,15 +1,15 @@
 {
-  "name": "angular-hn",
+  "name": "hacker-reader",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:stats": "ng build --stats-json",
-    "analyze": "webpack-bundle-analyzer dist/angularHN/stats.json"
+    "analyze": "webpack-bundle-analyzer dist/hacker-reader/stats.json"
   },
   "private": true,
   "dependencies": {

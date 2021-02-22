@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "@angular/fire/database";
 
-import { from, of, Observable, EMPTY } from "rxjs";
+import { from, Observable, EMPTY } from "rxjs";
 import { filter, map, concatMap, mergeMap, reduce, expand, pluck, first, tap } from "rxjs/operators";
 
 import { FeedType } from "./enums";
@@ -22,10 +22,8 @@ export class HNService {
         private db: AngularFireDatabase
     ) { }
 
-    getItemsContent(indices$: number[], offset: number): Observable<Item[]> {
-        return of(indices$).pipe(
-            map((array: number[]) => array.slice(offset, offset + 30)),
-            concatMap((array: number[]) => array),
+    getItemsContent(indices: number[]): Observable<Item[]> {
+        return from(indices).pipe(
             mergeMap((id: number) => this.getItem(id)),
             reduce((arr: Item[], content: Item) => {
                 return arr.push(content) && arr;

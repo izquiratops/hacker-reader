@@ -5,26 +5,12 @@ import { Theme } from "./enums";
 @Injectable()
 export class SharedService {
 
-  /**
-   * This service is used to take care of mobile layout and theme events.
-   */
-  readonly mobileThreshold: number = 760;
   isMobile$: BehaviorSubject<boolean>;
   currentTheme$: BehaviorSubject<string>;
 
   constructor() {
-    this.currentTheme$ = new BehaviorSubject<string>(this.getFromStorage());
-    this.isMobile$ = new BehaviorSubject<boolean>(window.innerWidth < this.mobileThreshold);
+    this.currentTheme$ = new BehaviorSubject<string>(localStorage.getItem('theme') ?? Theme.LIGHT);
+    this.isMobile$ = new BehaviorSubject<boolean>(window.innerWidth < 760);
   }
 
-  // Light theme as default
-  getFromStorage = () => localStorage.getItem('theme') ?? Theme.LIGHT;
-
-  // Switch light <-> dark
-  switchTheme() {
-    const previousTheme: string = this.getFromStorage();
-    const currentTheme = (previousTheme === Theme.LIGHT) ? Theme.DARK : Theme.LIGHT;
-    localStorage.setItem('theme', currentTheme);
-    this.currentTheme$.next(currentTheme);
-  }
 }

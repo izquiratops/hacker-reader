@@ -3,12 +3,6 @@
     <button mat-icon-button [routerLink]="['../']">
         <mat-icon>arrow_back</mat-icon>
     </button>
-
-    <!-- Buttons at the end -->
-    <span class="spacer"></span>
-    <button mat-icon-button aria-label="Switch between Light/Dark theme" (click)="shared.switchTheme()">
-        <mat-icon>{{(shared.currentTheme$ | async) | iconTheme}}</mat-icon>
-    </button>
 </mat-toolbar>
 <mat-progress-bar color="primary" [mode]="loadState$ | async"></mat-progress-bar>
 
@@ -24,11 +18,11 @@
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding
                 [matTreeNodePaddingIndent]="(shared.isMobile$ | async) | commentPadding">
                 <div class="comment-wrapper" [ngStyle]="{'border-color': node.color}">
-                    <div class="details">
-                        <span>By <a class="mat-body-strong">{{node.by}}</a></span>
+                    <div class="details" @showItem>
+                        <span>By <span class="mat-body-strong">{{node.by}}</span></span>
                         <span>From {{node.time | postFrom}}</span>
                     </div>
-                    <div class="mat-body" [innerHTML]="node.text"></div>
+                    <div class="mat-body" [innerHTML]="node.text" @showItem></div>
                 </div>
             </mat-tree-node>
 
@@ -36,41 +30,50 @@
             <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding
                 [matTreeNodePaddingIndent]="(shared.isMobile$ | async) | commentPadding">
                 <div class="comment-wrapper" [ngStyle]="{'border-color': node.color}" matTreeNodeToggle>
-                    <div class="details">
+                    <div class="details" @showItem>
                         <span>By <a class="mat-body-strong">{{node.by}}</a></span>
                         <span>From {{node.time | postFrom}}</span>
                         <span [hidden]="treeControl.isExpanded(node)">
                             {{node.kids.length | replies}}
                         </span>
                     </div>
-                    <div class="mat-body" [innerHTML]="node.text"></div>
+                    <div class="mat-body" [innerHTML]="node.text" @showItem></div>
                 </div>
             </mat-tree-node>
         </mat-tree>
+
+        <!-- No comments message -->
+        <ng-container *ngIf="(emptyItem$ | async); then emptyComments"></ng-container>
     </div>
 </div>
 
 <ng-template #itemHeader let-item="item">
     <div class="story" *ngIf="item">
         <!-- Title -->
-        <div>
+        <div @showItem>
             <a class="mat-h2">
                 {{item.title}}
             </a>
         </div>
         <!-- Domain -->
-        <div *ngIf="item.url">
+        <div *ngIf="item.url" @showItem>
             <a class="mat-h3" [href]="item.url" target="_blank" rel="noopener noreferrer">
                 {{item.url | domain}}
             </a>
         </div>
         <!-- Details -->
-        <div class="details mat-body">
+        <div class="details mat-body" @showItem>
             <span>{{item.score}} points</span>
             <span>{{item.descendants}} comments</span>
             <span>By {{item.by}}</span>
             <span>From {{item.time | postFrom}}</span>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #emptyComments>
+    <div class="mat-body empty-comments" @showItem>
+        🏜️ There's nothing to read here 🏜️
     </div>
 </ng-template>
 

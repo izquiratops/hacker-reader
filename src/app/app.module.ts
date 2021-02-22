@@ -5,12 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 
 import { AppComponent } from './app.component';
-
-import { HNService } from './shared/hn.service';
 import { SharedService } from './shared/shared.service';
+import { CustomReuseStrategy } from './shared/routing';
 
 import { environment } from 'src/environments/environment';
-import { CustomReuseStrategy } from './shared/routing';
 
 const routes: Routes = [
   {
@@ -31,9 +29,8 @@ const routes: Routes = [
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
-    HNService,
-    SharedService
+    SharedService,
+    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy }
   ],
   bootstrap: [
     AppComponent
