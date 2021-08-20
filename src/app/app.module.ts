@@ -9,6 +9,7 @@ import { ResizeListenerDirective } from './resize-listener.directive';
 import { SharedService } from './shared/shared.service';
 
 import { environment } from 'src/environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 const routes: Routes = [
   {
@@ -24,6 +25,12 @@ const routes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     AngularFireModule.initializeApp(environment.firebase),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [SharedService],
   bootstrap: [AppComponent],
