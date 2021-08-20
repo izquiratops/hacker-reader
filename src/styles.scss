@@ -1,79 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { 
-    height: 100%; 
-    overflow: hidden;
+html,
+body {
+  height: 100%;
+  overflow: hidden;
 }
 
-body { 
-    margin: 0; 
-    text-rendering: optimizeLegibility;
+body {
+  margin: 0;
+  text-rendering: optimizeLegibility;
 }
 
-a { 
-    cursor: pointer; 
+.hidden {
+  display: none;
 }
 
-// Material
-.mat-toolbar, .mat-progress-bar { 
-    flex-shrink: 0; 
-}
-
-// Shared properties
-.details {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: baseline;
-
-    span { margin-right: 8px; }
-}
-
-.chip-icon {
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.spacer { 
-    flex-grow: 1; 
-    min-width: 12px;
+.top-bar-spacer {
+  flex-grow: 1;
+  min-width: 12px;
 }
 
 .scroll-element {
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    height: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  height: 100%;
 }
 
 .centered-container {
-    box-sizing: border-box;
-    margin: auto;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-    max-width: 1100px;
-    width: 100%;
+  box-sizing: border-box;
+  margin: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  max-width: 1100px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-
-.story { 
-    display: flex;
-    flex-direction: column;
-    margin: 8px 0;
-    gap: 6px;
-
-    div:not(:first-child) {
-        margin-top: 6px;
-    }
-}
-
 
 // Mobile version with narrower paddings. Some changes are applied via JS (!).
 // That max-width value should match with the Shared Service var.
 @media screen and (max-width: 760px) {
-    .centered-container {
-        padding-left: 1.4rem;
-        padding-right: 1.4rem;
-    }
+  .centered-container {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+  }
 }

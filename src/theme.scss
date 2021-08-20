@@ -1,15 +1,21 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @include mat-core();
 
 /* Typography */
-// Inter
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 $custom-typography: mat-typography-config(
-  $font-family: 'Inter, Roboto, monospace',
-  $headline: mat-typography-level(24px, 24px, 500), // H1
-  $title: mat-typography-level(18px, 24px, 500),    // H2
-  $body-1: mat-typography-level(15px, 20px, 400),
+  $font-family: "Inter, Roboto, monospace",
+  $headline:
+    mat-typography-level(
+      $font-weight: 700,
+      $font-size: 2rem,
+      $line-height: 1,
+      $letter-spacing: normal,
+    ),
+  $title: mat-typography-level(20px, 20px, 500),
+  $subheading-2: mat-typography-level(16px, 20px, 500),
+  $body-1: mat-typography-level(16px, 20px, 500),
 );
 
 @include mat-base-typography($custom-typography);
@@ -17,45 +23,55 @@ $custom-typography: mat-typography-config(
 /* Palettes */
 // Light Palette
 $light-primary: mat-palette($mat-deep-orange, A200);
-$light-accent: mat-palette($mat-deep-orange, 400);
+$light-accent: mat-palette($mat-deep-orange, A100);
 
-$light-theme: mat-light-theme((
-  color: (
-    primary: $light-primary,
-    accent: $light-accent
+$light-theme: mat-light-theme(
+  (
+    color: (
+      primary: $light-primary,
+      accent: $light-accent,
+    ),
   )
-));
+);
 
 // Dark Palette.
 $dark-primary: mat-palette($mat-indigo, A200);
 $dark-accent: mat-palette($mat-indigo, 400);
 
-$dark-theme: mat-dark-theme((
-  color: (
-    primary: $dark-primary,
-    accent: $dark-accent,
-  ),
-));
+$dark-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $dark-primary,
+      accent: $dark-accent,
+    ),
+  )
+);
 
 // Default Palette (Light)
 @include angular-material-theme($light-theme);
 
 /* Themes */
-// Light Theme
 .light-theme {
-  background-color: #edf6f9;
+  --background-color: #edf6f9;
   color: black;
   scrollbar-color: light;
-  a { color: black; }
-  .mat-tree { background: transparent; }
+  a {
+    color: black;
+  }
+  .mat-tree {
+    background: transparent;
+  }
 }
 
-// Dark Theme
 .dark-theme {
   @include angular-material-color($dark-theme);
-  background-color: #121C2B;
+  --background-color: #121c2b;
   color: white;
   scrollbar-color: dark;
-  a { color: white; }
-  .mat-tree { background: transparent; }
+  a {
+    color: white;
+  }
+  .mat-tree {
+    background: transparent;
+  }
 }

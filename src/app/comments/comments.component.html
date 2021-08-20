@@ -1,26 +1,26 @@
 <!-- Nav -->
-<mat-toolbar color="primary">
+<mat-toolbar autoHide [scrollElement]="scrollElement" color="primary" style="gap: 8px">
     <button mat-icon-button [routerLink]="['../']">
         <mat-icon>arrow_back</mat-icon>
     </button>
 </mat-toolbar>
-<mat-progress-bar color="primary" [mode]="loadState"></mat-progress-bar>
+
+<mat-progress-bar color="primary" value="0" [mode]="isLoading | progressMode"></mat-progress-bar>
 
 <!-- Comments -->
 <div class="scroll-element" #scrollElement>
     <div class="centered-container">
-        <!-- Header -->
-        <ng-container *ngTemplateOutlet="itemHeader; context: {item: currentItem$ | async}"></ng-container>
-        <mat-divider></mat-divider>
+        <!-- Header -->        
+        <hn-item [item]="item" [commentsStyle]="true" @showItem></hn-item>
 
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
             <!-- This is the tree node template for leaf nodes -->
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding
                 [matTreeNodePaddingIndent]="shared.isMobile$ | async | commentPadding">
-                <div class="comment-wrapper" [ngStyle]="{'border-color': node.color}">
-                    <div class="details" @showItem>
-                        <span>By <span class="mat-body-strong">{{node.by}}</span></span>
-                        <span>From {{node.time | postFrom}}</span>
+                <div class="comment" [ngStyle]="{'border-color': node.color}">
+                    <div class="post-details" @showItem>
+                        <div>By <b>{{node.by}}</b></div>
+                        <div>From {{node.time | postFrom}}</div>
                     </div>
                     <div class="mat-body" [innerHTML]="node.text" @showItem></div>
                 </div>
@@ -29,62 +29,26 @@
             <!-- This is the tree node template for expandable nodes -->
             <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding
                 [matTreeNodePaddingIndent]="shared.isMobile$ | async | commentPadding">
-                <div class="comment-wrapper" [ngStyle]="{'border-color': node.color}" matTreeNodeToggle>
-                    <div class="details" @showItem>
-                        <span>By <a class="mat-body-strong">{{node.by}}</a></span>
-                        <span>From {{node.time | postFrom}}</span>
-                        <span [hidden]="treeControl.isExpanded(node)">
-                            {{node.kids.length | replies}}
-                        </span>
+                <div class="comment" [ngStyle]="{'border-color': node.color}" matTreeNodeToggle>
+                    <div class="post-details" @showItem>
+                        <div>By <a class="mat-body-strong">{{node.by}}</a></div>
+                        <div>From {{node.time | postFrom}}</div>
                     </div>
                     <div class="mat-body" [innerHTML]="node.text" @showItem></div>
+                    <div [hidden]="treeControl.isExpanded(node)">
+                        {{node.kids.length | replies}}
+                    </div>
                 </div>
             </mat-tree-node>
         </mat-tree>
 
         <!-- No comments message -->
-        <ng-container *ngIf="emptyItem; then emptyComments"></ng-container>
+        <ng-container *ngIf="noComments; then emptyComments"></ng-container>
     </div>
 </div>
 
-<ng-template #itemHeader let-item="item">
-    <div class="story" *ngIf="item" @showItem>
-        <!-- Title -->
-        <div>
-            <a class="mat-h2">
-                {{item.title}}
-            </a>
-        </div>
-        <!-- Domain -->
-        <div *ngIf="item.url">
-            <a class="mat-h3" [href]="item.url" target="_blank" rel="noopener noreferrer">
-                {{item.url | domain}}
-            </a>
-        </div>
-        <!-- Details -->
-        <mat-chip-list aria-label="Description">
-            <mat-chip>
-                <mat-icon class="chip-icon">favorite</mat-icon>
-                {{item.score}}
-            </mat-chip>
-            <mat-chip>
-                <mat-icon class="chip-icon">forum</mat-icon>
-                {{item.descendants}}
-            </mat-chip>
-            <mat-chip>
-                <mat-icon class="chip-icon">face</mat-icon>
-                {{item.by}}
-            </mat-chip>
-            <mat-chip>
-                <mat-icon class="chip-icon">schedule</mat-icon>
-                {{item.time | postFrom}}
-            </mat-chip>
-        </mat-chip-list>
-    </div>
-</ng-template>
-
 <ng-template #emptyComments>
-    <div class="mat-body empty-comments" @showItem>
+    <div class="mat-body" style="text-align: center" @showItem>
         🏜️ There's nothing to read here 🏜️
     </div>
 </ng-template>

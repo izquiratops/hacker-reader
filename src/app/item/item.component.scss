@@ -1,0 +1,35 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0;
+  gap: 10px;
+}
+
+.title {
+  margin: 0 auto 0 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  opacity: 0.75;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  mat-icon {
+    transform: scale(0.65);
+  }
+}
+
+.chip:not(:last-child)::after {
+  content: "•";
+  margin: 0 6px;
+}

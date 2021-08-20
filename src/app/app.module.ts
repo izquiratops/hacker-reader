@@ -1,39 +1,31 @@
 import { NgModule } from '@angular/core';
-import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 
 import { AppComponent } from './app.component';
+import { ResizeListenerDirective } from './resize-listener.directive';
 import { SharedService } from './shared/shared.service';
-import { CustomReuseStrategy } from './shared/routing';
 
 import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./feed/feed.module').then(m => m.FeedModule)
-  }
+    loadChildren: () => import('./feed/feed.module').then((m) => m.FeedModule),
+  },
 ];
 
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent, ResizeListenerDirective],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
   ],
-  providers: [
-    SharedService,
-    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy }
-  ],
-  bootstrap: [
-    AppComponent
-  ]
+  providers: [SharedService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

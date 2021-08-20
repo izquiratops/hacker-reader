@@ -1,18 +1,24 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+
+  background-color: var(--background-color);
 }
 
-.load-more { 
-    display: flex; 
-    justify-content: center; 
-    padding-bottom: 80px;
+hr {
+  margin: 36px 0;
 }
 
-.arrow-upward { 
-    position: absolute; 
-    bottom: 1rem; 
-    right: 1.75rem; 
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 80px;
+}
+
+.arrow-upward {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.75rem;
 }

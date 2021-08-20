@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
+  printDebug: true,
   firebase: {
-    databaseURL: 'https://hacker-news.firebaseio.com'
-  }
+    databaseURL: 'https://hacker-news.firebaseio.com',
+  },
 };
 
 /*
