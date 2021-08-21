@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1629547513539,
+  "timestamp": 1629548568741,
   "index": "/hacker-reader/index.html",
   "assetGroups": [
     {
@@ -12,14 +12,14 @@
       },
       "urls": [
         "/hacker-reader/336.c9bb867a519265d4a648.js",
-        "/hacker-reader/50.7a6dd9b87aee7613c117.js",
+        "/hacker-reader/50.9de537f74570175cc643.js",
         "/hacker-reader/favicon.ico",
         "/hacker-reader/index.html",
         "/hacker-reader/main.d6f08e2076a541df3175.js",
         "/hacker-reader/manifest.webmanifest",
         "/hacker-reader/polyfills.000707a93d3a8c85866d.js",
-        "/hacker-reader/runtime.f778fab99853d2dc66e1.js",
-        "/hacker-reader/styles.3eaa9f75bef10816ada6.css"
+        "/hacker-reader/runtime.8e6682468ca528cc0470.js",
+        "/hacker-reader/styles.7e0699b5df04c67efb9b.css"
       ],
       "patterns": []
     },
@@ -32,7 +32,7 @@
       },
       "urls": [
         "/hacker-reader/assets/icons/icon-192x192.png",
-        "/hacker-reader/assets/icons/icon-512x512.png"
+        "/hacker-reader/assets/icons/icons-512.png"
       ],
       "patterns": []
     }
@@ -40,16 +40,16 @@
   "dataGroups": [],
   "hashTable": {
     "/hacker-reader/336.c9bb867a519265d4a648.js": "621d386af55698a33da1a1ab6df24600defba754",
-    "/hacker-reader/50.7a6dd9b87aee7613c117.js": "f793424220fa2ae28aa08dd6514c3f580da4cc7f",
+    "/hacker-reader/50.9de537f74570175cc643.js": "7e017687ecff0376a0c7b8cdcf47cf9c6a0fe62b",
     "/hacker-reader/assets/icons/icon-192x192.png": "ea865a982489ece9697c395f0f19bf99bb111ddc",
-    "/hacker-reader/assets/icons/icon-512x512.png": "47c21513780cbb3d639a46f8806d0a6904f11abd",
+    "/hacker-reader/assets/icons/icons-512.png": "47c21513780cbb3d639a46f8806d0a6904f11abd",
     "/hacker-reader/favicon.ico": "c74b2ae864b0dd10f712cff325d8f0db7de5f864",
-    "/hacker-reader/index.html": "a984365e08f4fcb136dfed35bfb5d2be171b4341",
+    "/hacker-reader/index.html": "89325fa481a83d178b24118053eece5ffb11844c",
     "/hacker-reader/main.d6f08e2076a541df3175.js": "1ae450bc194766c8ee121130c4e79a2024e18861",
-    "/hacker-reader/manifest.webmanifest": "eee199f9280bcc6b352fb93a5db9671bcaa26f37",
+    "/hacker-reader/manifest.webmanifest": "e1f78895463183b135a40d92a50ba070efe65f94",
     "/hacker-reader/polyfills.000707a93d3a8c85866d.js": "9f31710ecffce9745e385dc6596c49bbbda09fde",
-    "/hacker-reader/runtime.f778fab99853d2dc66e1.js": "7d731d6887c659c023da195d6ba3e11a89cee91e",
-    "/hacker-reader/styles.3eaa9f75bef10816ada6.css": "b5da2d2e1e04aeb9e268d2019e8f76ec9da73181"
+    "/hacker-reader/runtime.8e6682468ca528cc0470.js": "09df90a53ef5d4df29d316c45031a7087f5908ba",
+    "/hacker-reader/styles.7e0699b5df04c67efb9b.css": "9ec6af73e240d5a6fce974f72dd56b819b5aeedb"
   },
   "navigationUrls": [
     {
